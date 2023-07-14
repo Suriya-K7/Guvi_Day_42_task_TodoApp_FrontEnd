@@ -47,10 +47,10 @@ const App = () => {
         return e;
       }
     });
-    setTodo(updatedTodo);
     try {
       let filteredUpdatedTodo = updatedTodo.find((e) => e["_id"] === id);
       await Api.patch(`/todos/${id}`, filteredUpdatedTodo);
+      setTodo(updatedTodo);
     } catch (error) {
       console.error(console.error());
     }
