@@ -16,7 +16,7 @@ const App = () => {
       }
     };
     (async () => await dbTodo())();
-  }, []);
+  });
   function newTodo(name) {
     return {
       id: Date.now(),
@@ -70,7 +70,13 @@ const App = () => {
     <div className="container my-3">
       <h1 className="text-center text-light display-4">TODO APP</h1>
       <form onSubmit={handleAdd} className="p-3 d-flex gap-2">
-        <input ref={name} type="text" required className="form-control" />
+        <input
+          ref={name}
+          type="text"
+          required
+          placeholder="add todo.."
+          className="form-control"
+        />
         <button className="btn btn-outline-primary" type="submit">
           Add
         </button>
