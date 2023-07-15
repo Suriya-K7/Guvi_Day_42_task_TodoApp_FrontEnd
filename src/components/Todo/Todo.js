@@ -2,12 +2,11 @@ import React from "react";
 
 const Todo = ({ todo, handleDelete, handleStatus }) => {
   return (
-    <div className="d-flex container-fluid align-items-center justify-content-between">
+    <div className="d-flex container-fluid todo p-2 align-items-center justify-content-between">
       <span
-        className={`d-block w-25 ${
-          todo.complete ? "text-decoration-line-through" : ""
+        className={`d-block w-25 text-light ${
+          todo.complete ? "text-decoration-line-through text-muted " : ""
         }`}
-        style={{ color: todo.complete ? "#AAA" : "#000" }}
       >
         {todo.name}
       </span>

@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
-import Todos from "./components/Todo/Todos";
-import Api from "./api/Api";
+import { createContext, useEffect, useRef, useState } from "react";
+import Api from "../api/Api";
+const DataContext = createContext({});
 
-const App = () => {
+export const DataProvider = ({ children }) => {
   let [todo, setTodo] = useState([]);
-  const name = useRef("");
+  const todoName = useRef("");
 
   useEffect(() => {
     let dbTodo = async () => {
@@ -17,6 +17,7 @@ const App = () => {
     };
     (async () => await dbTodo())();
   }, []);
+
   function newTodo(name) {
     return {
       id: Date.now(),
@@ -25,18 +26,18 @@ const App = () => {
     };
   }
 
-  async function handleAdd(e) {
-    e.preventDefault();
-    let addTodo = newTodo(name.current.value);
+  async function handleAdd() {
+    let addTodo = newTodo(todoName);
+    console.log(addTodo);
+    let newTodoList = todo.concat(addTodo);
+    setTodo(newTodoList);
     try {
       await Api.post("/todos", addTodo);
-      let newTodoList = [...todo, addTodo];
-      setTodo(newTodoList);
     } catch (error) {
       console.error(console.error());
     }
-    name.current.value = "";
-    name.current.focus();
+    todoName.current.value = "";
+    todoName.current.focus();
   }
 
   async function handleStatus(id) {
@@ -65,23 +66,20 @@ const App = () => {
       console.error(console.error());
     }
   }
-
   return (
-    <div className="container my-3">
-      <h1 className="text-center text-light display-4">TODO APP</h1>
-      <form onSubmit={handleAdd} className="p-3 d-flex gap-2">
-        <input ref={name} type="text" required className="form-control" />
-        <button className="btn btn-outline-primary" type="submit">
-          Add
-        </button>
-      </form>
-      <Todos
-        todo={todo}
-        handleDelete={handleDelete}
-        handleStatus={handleStatus}
-      />
-    </div>
+    <DataContext.Provider
+      value={{
+        todo,
+        setTodo,
+        handleDelete,
+        handleStatus,
+        handleAdd,
+        todoName,
+      }}
+    >
+      {children}
+    </DataContext.Provider>
   );
 };
 
-export default App;
+export default DataContext;

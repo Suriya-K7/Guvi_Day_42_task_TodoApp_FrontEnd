@@ -3,7 +3,7 @@ import Todo from "./Todo.js";
 
 const Todos = ({ todo, handleDelete, handleStatus }) => {
   return (
-    <div className="d-flex flex-column gap-2 ">
+    <div className="d-flex flex-column gap-3 ">
       {todo &&
         todo.map((item) => (
           <Todo
